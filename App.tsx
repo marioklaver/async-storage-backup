@@ -19,15 +19,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-declare const global: {HermesInternal: null | {}};
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const storeData = async (value: string) => {
   try {
@@ -38,13 +30,13 @@ const storeData = async (value: string) => {
 };
 
 const App = () => {
-  const [state, setState] = useState('unknown')
-  // useEffect(() => {
-  //   storeData('Eelco fskfj sf sdjlf ds');
-  // }, []);
+  const [title, setTitle] = useState('unknown');
+  useEffect(() => {
+    storeData('My title from asyncStorage');
+  }, []);
 
   AsyncStorage.getItem('@storage_Key', (error, result) => {
-  setState(result);
+    setTitle(result || '');
   });
   return (
     <>
@@ -53,39 +45,10 @@ const App = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>MARIO MARIO MARIO MARIO</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.tsx</Text> to dasdas this
-                screen and then come back to see yodasdasur edits.
-              </Text>
+              <Text style={styles.sectionTitle}>{title}</Text>
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>{state}</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
           </View>
         </ScrollView>
       </SafeAreaView>
